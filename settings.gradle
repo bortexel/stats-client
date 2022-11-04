@@ -1,0 +1,13 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'stats-client'
+
+include 'stats-client-common', 'stats-client-spigot', 'stats-client-fabric'

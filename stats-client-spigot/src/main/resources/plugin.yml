@@ -1,0 +1,7 @@
+name: StatsClient
+version: '${version}'
+main: ru.bortexel.stats.StatsClientSpigot
+api-version: 1.18
+authors: [ RuscalWorld ]
+description: Stats client for Spigot servers
+website: https://bortexel.ru
