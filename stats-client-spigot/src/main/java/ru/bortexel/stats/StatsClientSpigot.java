@@ -6,7 +6,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.bortexel.stats.listeners.PlayerJoinListener;
+import ru.bortexel.stats.listeners.PlayerQuitListener;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -19,7 +19,7 @@ public final class StatsClientSpigot extends JavaPlugin {
         PluginManager pluginManager = Bukkit.getPluginManager();
         try {
             StatsClient.initialize(this.getDataFolder().toPath());
-            pluginManager.registerEvents(new PlayerJoinListener(this::updatePlayer), this);
+            pluginManager.registerEvents(new PlayerQuitListener(this::updatePlayer), this);
         } catch (IOException e) {
             this.getLogger().log(Level.SEVERE, "Unable to initialize", e);
             pluginManager.disablePlugin(this);
