@@ -1,0 +1,23 @@
+plugins {
+    id 'com.github.johnrengelman.shadow'
+}
+
+dependencies {
+    api project(':stats-client-common')
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'ru.bortexel.stats.Main'
+    }
+}
+
+shadowJar {
+    dependencies {
+        include(dependency(':stats-client-common'))
+        include(dependency('org.slf4j:slf4j-api'))
+        include(dependency('com.google.code.gson:gson'))
+    }
+}
+
+tasks.build.dependsOn tasks.shadowJar

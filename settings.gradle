@@ -11,3 +11,5 @@ pluginManagement {
 rootProject.name = 'stats-client'
 
 include 'stats-client-common', 'stats-client-spigot', 'stats-client-fabric'
+include 'stats-client-cli'
+
