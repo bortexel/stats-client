@@ -1,3 +1,5 @@
+import net.fabricmc.loom.task.RemapJarTask
+
 plugins {
     id 'fabric-loom'
     id 'maven-publish'
@@ -83,9 +85,20 @@ publishing {
 }
 
 shadowJar {
+    archiveClassifier.set("all-dev")
+
     dependencies {
         include(dependency(':stats-client-common'))
     }
 }
 
 tasks.build.dependsOn tasks.shadowJar
+
+
+task remapShadowJar(type: RemapJarTask, dependsOn: shadowJar) {
+    inputFile = shadowJar.archiveFile
+    archiveFileName = shadowJar.archiveFileName.get().replaceAll("-dev\\.jar\$", ".jar")
+    addNestedDependencies = true
+}
+
+tasks.assemble.dependsOn tasks.remapShadowJar

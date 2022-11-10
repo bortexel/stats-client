@@ -1,34 +1,29 @@
 {
   "schemaVersion": 1,
-  "id": "stats-client-fabric",
+  "id": "stats-client",
   "version": "${version}",
-
   "name": "Stats Client",
   "description": "Stats client for Fabric servers",
   "authors": [
-      "RuscalWorld"
+    "RuscalWorld"
   ],
   "contact": {
-      "website": "https://bortexel.ru",
-      "repo": "https://github.com/bortexel/stats-client"
+    "website": "https://bortexel.net",
+    "repo": "https://github.com/bortexel/stats-client"
   },
-
   "license": "MIT",
-
   "environment": "server",
   "entrypoints": {
-      "main": [
-          "ru.bortexel.stats.StatsClientFabric"
-      ]
+    "main": [
+      "ru.bortexel.stats.StatsClientFabric"
+    ]
   },
-
-          "mixins": [
-        "stats-client-fabric.mixins.json"
-      ],
-    
+  "mixins": [
+    "stats-client-fabric.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.12.8",
-              "fabric": "*",
-          "minecraft": "1.18"
+    "fabric": "*",
+    "minecraft": ">=1.19"
   }
 }

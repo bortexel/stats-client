@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import ru.bortexel.stats.listeners.PlayerQuitListener;
 
 import java.io.IOException;
-import java.util.logging.Level;
 
+@SuppressWarnings("unused")
 public final class StatsClientSpigot extends JavaPlugin {
     private static final Logger logger = LoggerFactory.getLogger("Stats Client");
 
@@ -21,7 +21,7 @@ public final class StatsClientSpigot extends JavaPlugin {
             StatsClient.initialize(this.getDataFolder().toPath());
             pluginManager.registerEvents(new PlayerQuitListener(this::updatePlayer), this);
         } catch (IOException e) {
-            this.getLogger().log(Level.SEVERE, "Unable to initialize", e);
+            logger.error("Unable to initialize", e);
             pluginManager.disablePlugin(this);
         }
     }
