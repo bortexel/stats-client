@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    api project(':stats-client-api')
     api project(':stats-client-common')
 }
 
@@ -14,6 +15,7 @@ jar {
 
 shadowJar {
     dependencies {
+        include(dependency(':stats-client-api'))
         include(dependency(':stats-client-common'))
         include(dependency('org.slf4j:slf4j-api'))
         include(dependency('com.google.code.gson:gson'))

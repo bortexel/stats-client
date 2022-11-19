@@ -52,9 +52,12 @@ public class StatsClientFabric implements ModInitializer {
                     new FabricPlayer(player),
                     this.getPlayerDataProvider().parsePlayerStats(player),
                     this.getPlayerDataProvider().parsePlayerAdvancements(player)
-            );
+            ).exceptionally(throwable -> {
+                logger.error("Error updating stats for {}", player.getName(), throwable);
+                return null;
+            });
         } catch (Exception e) {
-            logger.error("Error updating stats for {}", player.getName(), e);
+            logger.error("Error collecting stats for {}", player.getName(), e);
         }
     }
 

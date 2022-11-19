@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+publishing {
+    publications {
+        action(MavenPublication) {
+            groupId = 'ru.bortexel'
+            artifactId = 'stats-api'
+            version = version
+
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url = 'https://maven.ruscal.world/releases'
+
+            credentials {
+                username = System.getenv("USERNAME") == null ? MavenReleasesUsername : System.getenv("USERNAME")
+                password = System.getenv("PASSWORD") == null ? MavenReleasesPassword : System.getenv("PASSWORD")
+            }
+        }
+    }
+}

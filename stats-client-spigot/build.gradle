@@ -14,6 +14,7 @@ repositories {
 }
 
 dependencies {
+    api project(':stats-client-api')
     api project(':stats-client-common')
     compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
 }
@@ -30,6 +31,7 @@ processResources {
 
 shadowJar {
     dependencies {
+        include(dependency(':stats-client-api'))
         include(dependency(':stats-client-common'))
     }
 }

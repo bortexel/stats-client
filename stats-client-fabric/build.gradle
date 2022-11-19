@@ -25,7 +25,8 @@ dependencies {
 
     // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
     // You may need to force-disable transitiveness on them.
-    implementation project(':stats-client-common')
+    api project(':stats-client-api')
+    api project(':stats-client-common')
 }
 
 processResources {
@@ -88,6 +89,7 @@ shadowJar {
     archiveClassifier.set("all-dev")
 
     dependencies {
+        include(dependency(':stats-client-api'))
         include(dependency(':stats-client-common'))
     }
 }

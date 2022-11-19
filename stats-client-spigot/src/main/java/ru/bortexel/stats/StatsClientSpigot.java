@@ -32,9 +32,12 @@ public final class StatsClientSpigot extends JavaPlugin {
                     new SpigotPlayer(player),
                     PlayerDataProvider.parsePlayerStats(player),
                     PlayerDataProvider.parsePlayerAdvancements(player)
-            );
+            ).exceptionally(throwable -> {
+                logger.error("Error updating stats for {}", player.getName(), throwable);
+                return null;
+            });
         } catch (IOException e) {
-            logger.error("Error updating stats for {}", player.getName(), e);
+            logger.error("Error collecting stats for {}", player.getName(), e);
         }
     }
 }
