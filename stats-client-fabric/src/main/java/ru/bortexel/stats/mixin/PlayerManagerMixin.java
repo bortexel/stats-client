@@ -10,7 +10,7 @@ import ru.bortexel.stats.StatsClientFabric;
 
 @Mixin(PlayerManager.class)
 public class PlayerManagerMixin {
-    @Inject(method = "remove", at = @At("HEAD"))
+    @Inject(method = "remove", at = @At("TAIL"))
     public void onDisconnect(ServerPlayerEntity player, CallbackInfo ci) {
         StatsClientFabric.getInstance().ifPresent((client) -> client.updatePlayer(player));
     }
