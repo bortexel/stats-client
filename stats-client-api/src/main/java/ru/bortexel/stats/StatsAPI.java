@@ -13,6 +13,24 @@ public class StatsAPI {
 
     private final List<StatsSupplier> statsSuppliers = new ArrayList<>();
 
+    /**
+     * Supplies StatsAPI instance after it has been initialized. If StatsAPI is already initialized, supplies
+     * its instance immediately.
+     * @param listener Consumer of StatsAPI that will be invoked when the event is fired.
+     */
+    public static void afterInitialized(Consumer<StatsAPI> listener) {
+        if (instance != null) {
+            listener.accept(instance);
+            return;
+        }
+
+        onInitialize(listener);
+    }
+
+    /**
+     * Supplies StatsAPI instance when it is being initialized. If StatsAPI is already initialized, nothing happens.
+     * @param listener Consumer of StatsAPI that will be invoked when the event is fired.
+     */
     public static void onInitialize(Consumer<StatsAPI> listener) {
         startupListeners.add(listener);
     }
