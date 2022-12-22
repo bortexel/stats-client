@@ -5,6 +5,9 @@ plugins {
 dependencies {
     api project(':stats-client-api')
     api project(':stats-client-common')
+
+    implementation 'ch.qos.logback:logback-core:1.4.5'
+    implementation 'ch.qos.logback:logback-classic:1.4.5'
 }
 
 jar {
@@ -19,6 +22,8 @@ shadowJar {
         include(dependency(':stats-client-common'))
         include(dependency('org.slf4j:slf4j-api'))
         include(dependency('com.google.code.gson:gson'))
+        include(dependency('ch.qos.logback:logback-core'))
+        include(dependency('ch.qos.logback:logback-classic'))
     }
 }
 

@@ -46,6 +46,9 @@ public class StatsClient {
                     player.getUniqueId(), player.getName(),
                     playerStats, advancements
             ));
+        }).exceptionally(throwable -> {
+            logger.error("Error updating player info", throwable);
+            return null;
         });
     }
 

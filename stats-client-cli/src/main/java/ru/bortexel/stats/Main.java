@@ -1,5 +1,7 @@
 package ru.bortexel.stats;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.bortexel.stats.entities.PlayerAdvancements;
 import ru.bortexel.stats.entities.PlayerStats;
 import ru.bortexel.stats.names.NameMapper;
@@ -12,9 +14,13 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class Main {
+    private static final Logger logger = LoggerFactory.getLogger("CLI");
+
     public static void main(String[] args) throws IOException {
         if (args.length == 0) {
             System.err.println("World path must be provided as argument");
@@ -38,24 +44,36 @@ public class Main {
 
         DataResolver dataResolver = new DataResolver(path);
 
-        for (File statsFile : dataResolver.findStatsFiles()) {
+        List<File> statsFiles = dataResolver.findStatsFiles();
+        int progress = 0;
+        for (File statsFile : statsFiles) {
+            progress++;
+            logger.info("Processing stats file {} [{}/{}]", statsFile, progress, statsFiles.size());
             PlayerStats playerStats = acceptStatsFile(statsFile);
             String uuid = statsFile.getName().split("\\.")[0];
             allPlayerStats.put(UUID.fromString(uuid), playerStats);
         }
 
-        for (File advancementsFile : dataResolver.findAdvancementFiles()) {
+        List<File> advancementsFiles = dataResolver.findAdvancementFiles();
+        progress = 0;
+        for (File advancementsFile : advancementsFiles) {
+            progress++;
+            logger.info("Processing advancements file {} [{}/{}]", advancementsFile, progress, advancementsFiles.size());
             PlayerAdvancements playerAdvancements = acceptAdvancementsFile(advancementsFile);
             String uuid = advancementsFile.getName().split("\\.")[0];
             allPlayerAdvancements.put(UUID.fromString(uuid), playerAdvancements);
         }
 
-        allPlayerStats.forEach((uuid, playerStats) -> {
+        progress = 0;
+        for (Map.Entry<UUID, PlayerStats> entry : allPlayerStats.entrySet()) {
+            progress++;
+            UUID uuid = entry.getKey();
             if (!allPlayerAdvancements.containsKey(uuid)) return;
             PlayerAdvancements playerAdvancements = allPlayerAdvancements.get(uuid);
             SimplePlayer player = new SimplePlayer(nameMapper.getName(uuid), uuid);
-            StatsClient.getInstance().updatePlayer(player, playerStats, playerAdvancements);
-        });
+            StatsClient.getInstance().updatePlayer(player, entry.getValue(), playerAdvancements).join();
+            logger.info("Updated info for player {} [{}/{}]", uuid, progress, allPlayerStats.size());
+        }
     }
 
     public static PlayerAdvancements acceptAdvancementsFile(File file) {
