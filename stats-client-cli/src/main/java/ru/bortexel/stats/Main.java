@@ -6,6 +6,7 @@ import ru.bortexel.stats.entities.PlayerAdvancements;
 import ru.bortexel.stats.entities.PlayerStats;
 import ru.bortexel.stats.names.NameMapper;
 import ru.bortexel.stats.names.NullNameMapper;
+import ru.bortexel.stats.names.OfflineNameMapper;
 import ru.bortexel.stats.names.PropertiesNameMapper;
 import ru.bortexel.stats.parsing.AdvancementParser;
 import ru.bortexel.stats.parsing.StatsParser;
@@ -21,7 +22,7 @@ import java.util.UUID;
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger("CLI");
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Throwable {
         if (args.length == 0) {
             System.err.println("World path must be provided as argument");
             return;
@@ -34,7 +35,9 @@ public class Main {
         }
 
         final NameMapper nameMapper;
-        if (args.length == 2) nameMapper = new PropertiesNameMapper(Path.of(args[1]).toFile());
+        if (args.length == 2) nameMapper = args[1].contains("offline")
+                ? new OfflineNameMapper(Path.of(args[1]).toFile())
+                : new PropertiesNameMapper(Path.of(args[1]).toFile());
         else nameMapper = new NullNameMapper();
 
         StatsClient.initialize(path);

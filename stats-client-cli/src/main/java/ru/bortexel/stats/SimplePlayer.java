@@ -20,4 +20,9 @@ public class SimplePlayer implements Player {
     public UUID getUniqueId() {
         return uniqueId;
     }
+
+    @Override
+    public String toString() {
+        return String.format("SimplePlayer{name='%s', uniqueId='%s'}", this.getName(), this.getUniqueId().toString());
+    }
 }
